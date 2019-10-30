@@ -1,10 +1,17 @@
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JComboBox;
+import javax.swing.JButton;
+import javax.swing.JTextField;
 
 public class ClassInterface {
 
 	private JFrame frame;
+	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -34,8 +41,72 @@ public class ClassInterface {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 392, 158);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		textField = new JTextField();
+		textField.setBounds(133, 13, 148, 22);
+		frame.add(textField);
+		textField.setColumns(10);
+		
+		JLabel lblNombreDeClase = new JLabel("Nombre de Clase:");
+		lblNombreDeClase.setBounds(12, 16, 116, 16);
+		frame.add(lblNombreDeClase);
+		
+		JLabel lblClasesEncontradas = new JLabel("Clases encontradas:");
+		lblClasesEncontradas.setBounds(12, 42, 116, 16);
+		frame.add(lblClasesEncontradas);
+		
+		JComboBox<String> comboBox = new JComboBox<String>();
+		comboBox.setBounds(133, 39, 231, 22);
+		frame.add(comboBox);
+		
+		JButton btnGenerarApi = new JButton("Generar API");
+		btnGenerarApi.setEnabled(false);
+		btnGenerarApi.setBounds(125, 71, 116, 25);
+		frame.add(btnGenerarApi);
+		
+		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.setBounds(293, 12, 71, 25);
+		frame.add(btnBuscar);
+		
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				final Package[] packages = Package.getPackages();
+			    final String className = textField.getText();
+			    int validar = 0;
+			    comboBox.removeAllItems();
+			    
+			    for (final Package p : packages) {
+			        final String pack = p.getName();
+			        final String quiza = pack + "." + className;
+			        try {
+			            Class.forName(quiza);
+			            comboBox.addItem(quiza);
+			            validar++;
+			        } catch (final ClassNotFoundException e) {
+			            continue;
+			        }
+			    }
+			    if (validar != 0) {
+			    	btnGenerarApi.setEnabled(true);
+			    }
+			    else {
+			    	comboBox.addItem("No se encontro ninguna clase");
+			    	btnGenerarApi.setEnabled(false);
+			    }
+			}
+		});
+		
+		btnGenerarApi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false); 
+				frame.dispose();
+				String classname = (String) comboBox.getSelectedItem();
+				APIInterface api = new APIInterface(classname);
+				api.setVisible(true);
+			}
+		});
 	}
-
 }
