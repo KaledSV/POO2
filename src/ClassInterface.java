@@ -45,6 +45,7 @@ public class ClassInterface {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
+		// se define el textFiel, labels y botones de la interfaz
 		textField = new JTextField();
 		textField.setBounds(133, 13, 148, 22);
 		frame.getContentPane().add(textField);
@@ -71,8 +72,10 @@ public class ClassInterface {
 		btnBuscar.setBounds(293, 12, 89, 25);
 		frame.getContentPane().add(btnBuscar);
 		
+		// se define la funcion del boton buscar
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				// se busca en todos los paquetes cualquier clase que concuerde con el nombre ingresado
 				final Package[] packages = Package.getPackages();
 			    final String className = textField.getText();
 			    int validar = 0;
@@ -99,6 +102,7 @@ public class ClassInterface {
 			}
 		});
 		
+		// boton para mostar la informacion de la clase seleccionado en la comboBox
 		btnGenerarApi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false); 

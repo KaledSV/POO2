@@ -4,12 +4,17 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Window;
+
 import javax.swing.JScrollPane;
 import java.awt.Dimension;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -38,8 +43,6 @@ public class APIInterface extends JFrame {
 	 * Create the frame.
 	 */
 	public APIInterface(String className) {
-		BuscadorClase buscador = new BuscadorClase();
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 512, 540);
 		contentPane = new JPanel();
@@ -48,6 +51,10 @@ public class APIInterface extends JFrame {
 		contentPane.setPreferredSize(new Dimension(620, 460));
 		setContentPane(contentPane);
 		
+		// buscador sirve para obtener la informacion de cada categoria
+		BuscadorClase buscador = new BuscadorClase();
+		
+		// se definen todas las textAreas y labels de cada categoria a mostrar
 		JLabel lblSupers = new JLabel("Jerarquia:");
 		lblSupers.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblSupers.setBounds(29, 38, 84, 16);
@@ -98,15 +105,21 @@ public class APIInterface extends JFrame {
 		metodosScroll.setBounds(135, 372, 350, 75);
 		contentPane.add(metodosScroll);
 		
+		// se define el boton para generar un XML y terminar el programa
 		JButton btnGenerar = new JButton("Generar");
 		btnGenerar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				@SuppressWarnings("unused")
 				GenerarXML generar = new GenerarXML(className);
+				JComponent comp = (JComponent) e.getSource();
+				Window win = SwingUtilities.getWindowAncestor(comp);
+				win.dispose();
 			}
 		});
 		btnGenerar.setBounds(184, 460, 97, 25);
 		contentPane.add(btnGenerar);
 		
+		// se coloca informacion de cada categoria en su respectiva textArea
 		try {
 			txtrSupers.setText(buscador.buscarSupers(className));
 			txtrinterfaces.setText(buscador.buscarInterfaces(className));
@@ -114,7 +127,9 @@ public class APIInterface extends JFrame {
 			txtrconstructores.setText(buscador.buscarConstructores(className));
 			txtrmetodos.setText(buscador.buscarMetodos(className));
 			btnGenerar.setEnabled(true);
-		} catch (ClassNotFoundException e) {
+		} 
+		// si hubo un error se deshabilita el boton para generar el XML
+		catch (ClassNotFoundException e) {
 			btnGenerar.setEnabled(false);
 		}
 	}

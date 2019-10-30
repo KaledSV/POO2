@@ -7,6 +7,7 @@ import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -22,6 +23,10 @@ import org.w3c.dom.Element;
 @SuppressWarnings("rawtypes")
 public class GenerarXML {
 	
+	/**
+	 * Agrega a un elemento XML todas las super clases de una clase
+	 * @param String de la clase a inspeccionar, el documento XML y el elemento del mismo
+	 */
 	public void creadorSupers(String className, Document document, Element jerarquia) throws ClassNotFoundException {
 		List<String> clasesPadre = (List<String>) new ArrayList<String>();
 		Class<?> Supers = Class.forName(className);
@@ -37,6 +42,10 @@ public class GenerarXML {
 		}
 	}
 	
+	/**
+	 * Agrega a un elemento XML todas las interfaces implementadas de una clase
+	 * @param String de la clase a inspeccionar, el documento XML y el elemento del mismo
+	 */
 	public void crearInterfaces(String className, Document document, Element EInterfaz) throws ClassNotFoundException {
 		Class<?> clase = Class.forName(className);
 		List<String> interfacesStr = (List<String>) new ArrayList<String>();
@@ -63,6 +72,10 @@ public class GenerarXML {
 		}
 	}
 	
+	/**
+	 * Agrega a un elemento XML todas los atributos de una clase
+	 * @param String de la clase a inspeccionar, el documento XML y el elemento del mismo
+	 */
 	public void crearAtributos(String className, Document document, Element atributos) throws ClassNotFoundException {
 		Class<?> clase = Class.forName(className);
 		List<String> atributosStr = (List<String>) new ArrayList<String>();
@@ -91,6 +104,10 @@ public class GenerarXML {
 		}
 	}
 	
+	/**
+	 * Agrega a un elemento XML todas los constructores de una clase
+	 * @param String de la clase a inspeccionar, el documento XML y el elemento del mismo
+	 */
 	public void crearConstructores(String className, Document document, Element EConstructores) throws ClassNotFoundException {
 		Class<?> clase = Class.forName(className);
 		List<String> constructoresStr = (List<String>) new ArrayList<String>();
@@ -124,6 +141,10 @@ public class GenerarXML {
 		}
 	}
 	
+	/**
+	 * Agrega a un elemento XML todas los metodos implementados de una clase
+	 * @param String de la clase a inspeccionar, el documento XML y el elemento del mismo
+	 */
 	public void crearMetodos(String className, Document document, Element EMetodos) throws ClassNotFoundException {
 		Class<?> clase = Class.forName(className);
 		List<String> metodosStr = (List<String>) new ArrayList<String>();
@@ -167,27 +188,29 @@ public class GenerarXML {
 		}
 	}
 	
+	/**
+	 * Genera un XML de la jerarquia, interfaces, atributos, constructores y metodos 
+	 * @param String de la clase a inspeccionar y generar un XML
+	 */
 	public GenerarXML(String className) {
-		String xmlFilePath = "E:\\eclipses\\Proyectos\\POO2\\"+ className +".xml";
+		String xmlFilePath = "C:\\Users\\Nitroso\\Documents\\Eclipse\\eclipse\\Proyectos\\POO2\\"+ className +".xml";
 		try {
-			 
 	        DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
-
 	        DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
-
 	        Document document = documentBuilder.newDocument();
 
 	       
 	        Element clase = document.createElement(className);
 	        document.appendChild(clase);
 
-	        //Jerarquia de la clase
+	        // genera todos las categorias a guardar
 	        Element jerarquia = document.createElement("Jerarquia");
 	        Element interfaces = document.createElement("Interfaces");
 	        Element atributos = document.createElement("Atributos");
 	        Element constructores = document.createElement("Constructores");
 	        Element metodos = document.createElement("Metodos");
 	        
+	        // genera el contenido de cada categoria 
 	        try {
 	        	creadorSupers(className, document, jerarquia);
 	        	crearInterfaces(className, document, interfaces);
@@ -203,27 +226,16 @@ public class GenerarXML {
 	        clase.appendChild(atributos);
 	        clase.appendChild(constructores);
 	        clase.appendChild(metodos);
-	        
-	        //ayuda
-	        Attr attr = document.createAttribute("id");
-	        attr.setValue("10");
-	        jerarquia.setAttributeNode(attr);
 
-	        // create the xml file
-	        //transform the DOM Object to an XML File
+	        // crea el archivo XML, tranforma el objeto DOM al archivo XML
 	        TransformerFactory transformerFactory = TransformerFactory.newInstance();
 	        Transformer transformer = transformerFactory.newTransformer();
 	        DOMSource domSource = new DOMSource(document);
 	        StreamResult streamResult = new StreamResult(new File(xmlFilePath));
-
-	        // If you use
-	        // StreamResult result = new StreamResult(System.out);
-	        // the output will be pushed to the standard output ...
-	        // You can use that for debugging 
-
 	        transformer.transform(domSource, streamResult);
 
-	        System.out.println("Done creating XML File");
+	        // Se informa al usuario que se creo el XML sin problemas
+	        JOptionPane.showMessageDialog(null,"Se ha creado el XML!","Done!",JOptionPane.ERROR_MESSAGE);
 
 	    } catch (ParserConfigurationException pce) {
 	        pce.printStackTrace();
