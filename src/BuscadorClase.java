@@ -29,7 +29,7 @@ public class BuscadorClase {
 					texto = texto + parametros[i].getType().getSimpleName() + ", ";
 				}
 			}
-			metodosStr.add(Modifier.toString(metodo.getModifiers()) + " " +metodo.getName() + texto + ")");
+			metodosStr.add(Modifier.toString(metodo.getModifiers()) + " " + metodo.getReturnType().getSimpleName() + " " + metodo.getName() + texto + ")");
 			texto = "(";
 		}
 		

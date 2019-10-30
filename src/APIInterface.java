@@ -10,6 +10,8 @@ import javax.swing.JScrollPane;
 import java.awt.Dimension;
 
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class APIInterface extends JFrame {
@@ -97,6 +99,11 @@ public class APIInterface extends JFrame {
 		contentPane.add(metodosScroll);
 		
 		JButton btnGenerar = new JButton("Generar");
+		btnGenerar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GenerarXML generar = new GenerarXML(className);
+			}
+		});
 		btnGenerar.setBounds(184, 460, 97, 25);
 		contentPane.add(btnGenerar);
 		
