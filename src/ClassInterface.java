@@ -41,35 +41,35 @@ public class ClassInterface {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 392, 158);
+		frame.setBounds(100, 100, 412, 158);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		textField = new JTextField();
 		textField.setBounds(133, 13, 148, 22);
-		frame.add(textField);
+		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
 		JLabel lblNombreDeClase = new JLabel("Nombre de Clase:");
 		lblNombreDeClase.setBounds(12, 16, 116, 16);
-		frame.add(lblNombreDeClase);
+		frame.getContentPane().add(lblNombreDeClase);
 		
 		JLabel lblClasesEncontradas = new JLabel("Clases encontradas:");
 		lblClasesEncontradas.setBounds(12, 42, 116, 16);
-		frame.add(lblClasesEncontradas);
+		frame.getContentPane().add(lblClasesEncontradas);
 		
 		JComboBox<String> comboBox = new JComboBox<String>();
-		comboBox.setBounds(133, 39, 231, 22);
-		frame.add(comboBox);
+		comboBox.setBounds(133, 39, 249, 22);
+		frame.getContentPane().add(comboBox);
 		
 		JButton btnGenerarApi = new JButton("Generar API");
 		btnGenerarApi.setEnabled(false);
-		btnGenerarApi.setBounds(125, 71, 116, 25);
-		frame.add(btnGenerarApi);
+		btnGenerarApi.setBounds(133, 73, 116, 25);
+		frame.getContentPane().add(btnGenerarApi);
 		
 		JButton btnBuscar = new JButton("Buscar");
-		btnBuscar.setBounds(293, 12, 71, 25);
-		frame.add(btnBuscar);
+		btnBuscar.setBounds(293, 12, 89, 25);
+		frame.getContentPane().add(btnBuscar);
 		
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
