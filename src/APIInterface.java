@@ -6,6 +6,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Window;
 
@@ -111,13 +113,23 @@ public class APIInterface extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				@SuppressWarnings("unused")
 				GenerarXML generar = new GenerarXML(className);
-				JComponent comp = (JComponent) e.getSource();
+			}
+		});
+		btnGenerar.setBounds(239, 460, 97, 25);
+		contentPane.add(btnGenerar);
+		
+		JButton btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ClassInterface nueva = new ClassInterface();
+				nueva.setVisible(true);
+				JComponent comp = (JComponent) arg0.getSource();
 				Window win = SwingUtilities.getWindowAncestor(comp);
 				win.dispose();
 			}
 		});
-		btnGenerar.setBounds(184, 460, 97, 25);
-		contentPane.add(btnGenerar);
+		btnBack.setBounds(12, 460, 97, 25);
+		contentPane.add(btnBack);
 		
 		// se coloca informacion de cada categoria en su respectiva textArea
 		try {
@@ -130,6 +142,7 @@ public class APIInterface extends JFrame {
 		} 
 		// si hubo un error se deshabilita el boton para generar el XML
 		catch (ClassNotFoundException e) {
+			JOptionPane.showMessageDialog(null,"Hubo un error","Error",JOptionPane.ERROR_MESSAGE);
 			btnGenerar.setEnabled(false);
 		}
 	}

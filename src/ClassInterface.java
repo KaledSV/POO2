@@ -1,17 +1,22 @@
 import java.awt.EventQueue;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 
-public class ClassInterface {
+@SuppressWarnings("serial")
+public class ClassInterface extends JFrame {
 
-	private JFrame frame;
-	private JTextField textField;
+	private JPanel contentPane;
 
 	/**
 	 * Launch the application.
@@ -20,8 +25,8 @@ public class ClassInterface {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ClassInterface window = new ClassInterface();
-					window.frame.setVisible(true);
+					ClassInterface frame = new ClassInterface();
+					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -30,47 +35,42 @@ public class ClassInterface {
 	}
 
 	/**
-	 * Create the application.
+	 * Create the frame.
 	 */
 	public ClassInterface() {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 412, 158);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 412, 158);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
 		
 		// se define el textFiel, labels y botones de la interfaz
-		textField = new JTextField();
+		JTextField textField = new JTextField();
 		textField.setBounds(133, 13, 148, 22);
-		frame.getContentPane().add(textField);
+		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		JLabel lblNombreDeClase = new JLabel("Nombre de Clase:");
 		lblNombreDeClase.setBounds(12, 16, 116, 16);
-		frame.getContentPane().add(lblNombreDeClase);
+		contentPane.add(lblNombreDeClase);
 		
 		JLabel lblClasesEncontradas = new JLabel("Clases encontradas:");
 		lblClasesEncontradas.setBounds(12, 42, 116, 16);
-		frame.getContentPane().add(lblClasesEncontradas);
+		contentPane.add(lblClasesEncontradas);
 		
 		JComboBox<String> comboBox = new JComboBox<String>();
 		comboBox.setBounds(133, 39, 249, 22);
-		frame.getContentPane().add(comboBox);
+		contentPane.add(comboBox);
 		
 		JButton btnGenerarApi = new JButton("Generar API");
 		btnGenerarApi.setEnabled(false);
 		btnGenerarApi.setBounds(133, 73, 116, 25);
-		frame.getContentPane().add(btnGenerarApi);
+		contentPane.add(btnGenerarApi);
 		
 		JButton btnBuscar = new JButton("Buscar");
-		btnBuscar.setBounds(293, 12, 89, 25);
-		frame.getContentPane().add(btnBuscar);
+		btnBuscar.setBounds(284, 12, 98, 25);
+		contentPane.add(btnBuscar);
 		
 		// se define la funcion del boton buscar
 		btnBuscar.addActionListener(new ActionListener() {
@@ -105,12 +105,15 @@ public class ClassInterface {
 		// boton para mostar la informacion de la clase seleccionado en la comboBox
 		btnGenerarApi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false); 
-				frame.dispose();
+				contentPane.setVisible(false); 
+				JComponent comp = (JComponent) e.getSource();
+				Window win = SwingUtilities.getWindowAncestor(comp);
+				win.dispose();
 				String classname = (String) comboBox.getSelectedItem();
 				APIInterface api = new APIInterface(classname);
 				api.setVisible(true);
 			}
 		});
 	}
+
 }
